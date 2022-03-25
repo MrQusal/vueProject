@@ -66,6 +66,7 @@ export default {
       // 常用路由传参 模板字符串
       // this.$router.push(`search/${this.keyword}?k=${this.keyword.toUpperCase()}`);
       // 对象形式， name 为路由别名
+      console.log(this.$router.__proto__);
       this.$router.push({
         name: "search",
         params: { keyword: this.keyword },
