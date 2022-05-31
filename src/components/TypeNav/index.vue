@@ -2,7 +2,68 @@
   <!-- 商品分类导航 -->
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <div @mouseleave="resetIndex">
+        <h2 class="all">全部商品分类</h2>
+        <div class="sort">
+          <div class="all-sort-list2">
+            <div
+              @click="goSearch($event)"
+              class="item"
+              v-for="(cat1, index) in categoryList"
+              :key="cat1.categoryId"
+              :class="{ cur: curIndex === index }"
+            >
+              <!-- :class动态添加类名 -->
+              <h3 @mouseenter="changeIndex(index)">
+                <!-- 给每个 a 标签都添加 data-xxx 自定义属性 -->
+                <a
+                  href=""
+                  :data-category-name="cat1.categoryName"
+                  :data-category1Id="cat1.categoryId"
+                  >{{ cat1.categoryName }}</a
+                >
+              </h3>
+              <!-- 二三级分类 -->
+              <div
+                class="item-list clearfix"
+                :style="{ display: curIndex === index ? 'block' : 'none' }"
+              >
+                <!-- :style 动态添加样式 -->
+                <div
+                  class="subitem"
+                  v-for="cat2 in cat1.categoryChild"
+                  :key="cat2.categoryId"
+                >
+                  <dl class="fore">
+                    <dt>
+                      <a
+                        href=""
+                        :data-category-name="cat2.categoryName"
+                        :data-category2Id="cat2.categoryId"
+                        >{{ cat2.categoryName }}</a
+                      >
+                    </dt>
+                    <dd>
+                      <em
+                        v-for="cat3 in cat2.categoryChild"
+                        :key="cat3.categoryId"
+                      >
+                        <a
+                          href=""
+                          :data-category-name="cat3.categoryName"
+                          :data-category3Id="cat3.categoryId"
+                          >{{ cat3.categoryName }}</a
+                        >
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -13,45 +74,61 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="cat1 in categoryList" :key="cat1.categoryId">
-            <h3>
-              <a href="">{{ cat1.categoryName }}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div
-                class="subitem"
-                v-for="cat2 in cat1.categoryChild"
-                :key="cat2.categoryId"
-              >
-                <dl class="fore">
-                  <dt>
-                    <a href="">{{ cat2.categoryName }}</a>
-                  </dt>
-                  <dd>
-                    <em
-                      v-for="cat3 in cat2.categoryChild"
-                      :key="cat3.categoryId"
-                    >
-                      <a href="">{{ cat3.categoryName }}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import throttle from "lodash/throttle";
 export default {
   name: "TypeNav",
+  data() {
+    return {
+      curIndex: -1,
+    };
+  },
   methods: {
+    // 使用 lodash 提供的节流
+    changeIndex: throttle(function (index) {
+      // 鼠标移入，改变index
+      this.curIndex = index;
+    }, 50),
+    // 鼠标移除，重置index
+    resetIndex() {
+      this.curIndex = -1;
+    },
+    // 点击 a 标签，跳转到 search 组件
+    goSearch(event) {
+      let elem = event.target;
+      if (elem.nodeName === "A") {
+        console.log(elem.dataset);
+        const { categoryName, category1id, category2id, category3id } =
+          elem.dataset;
+        if (categoryName) {
+          let location = { name: "search" };
+          let query = { categoryName };
+          // 点击的一级分类
+          if (category1id) {
+            query.category1id = category1id;
+          }
+          // 点击的二级分类
+          else if (category2id) {
+            query.category2id = category2id;
+          }
+          // 点击的三级分类
+          else if (category3id) {
+            query.category3id = category3id;
+          }
+          // 合并路由参数
+          location.query = query;
+          // 进行跳转
+          this.$router.push(location);
+        }
+      }
+      event.preventDefault();
+    },
+
     ...mapActions("home", ["getCategoryList"]),
   },
   computed: {
@@ -173,12 +250,9 @@ export default {
               }
             }
           }
-
-          &:hover {
-            .item-list {
-              display: block;
-            }
-          }
+        }
+        .cur {
+          background-color: skyblue;
         }
       }
     }
