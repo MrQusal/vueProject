@@ -4,28 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
-            </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :carouselList="bannerList" />
       </div>
       <div class="right">
         <div class="news">
@@ -101,8 +80,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "",
+  mounted() {
+    this.$store.dispatch("home/getBannerList");
+
+    // 创建轮播图实例（组件挂载完毕时，发送了ajax请求，v-for遍历时结构还不完整（store中的数据还没修改完）：div
+  },
+  computed: {
+    // 获取 vuex 中的轮播图数据
+    ...mapState("home", ["bannerList"]),
+  },
 };
 </script>
 

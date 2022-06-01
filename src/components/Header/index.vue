@@ -66,12 +66,15 @@ export default {
       // 常用路由传参 模板字符串
       // this.$router.push(`search/${this.keyword}?k=${this.keyword.toUpperCase()}`);
       // 对象形式， name 为路由别名
-      console.log(this.$router.__proto__);
-      this.$router.push({
+      let location = {
         name: "search",
-        params: { keyword: this.keyword },
-        query: { k: this.keyword.toUpperCase() },
-      });
+        params: { keyword: this.keyword || undefined },
+      };
+      // 存在 query 跳转前需要合并参数
+      if (this.$route.query) {
+        location.query = this.$route.query;
+      }
+      this.$router.push(location);
     },
   },
 };
