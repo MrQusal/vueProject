@@ -60,6 +60,12 @@ export default {
       keyword: "",
     };
   },
+  mounted() {
+    // 订阅事件，删除重置 keyword
+    this.$bus.$on("removeHeaderKeyword", () => {
+      this.keyword = "";
+    });
+  },
   methods: {
     // 跳转到 search组件
     goSearch() {

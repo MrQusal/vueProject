@@ -7,6 +7,9 @@ Vue.component(TypeNav.name, TypeNav);
 // 全局注册轮播组件
 import Carousel from '@/components/Carousel'
 Vue.component(Carousel.name, Carousel);
+// 全局注册分页组件
+import Pagination from '@/components/Pagination'
+Vue.component(Pagination.name, Pagination)
 // 引入路由
 import router from '@/router';
 // 引入仓库
@@ -26,5 +29,9 @@ import "swiper/css/swiper.css"
 new Vue({
   render: h => h(App),
   router,
-  store
+  store,
+  // 配置全局事件总线
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  },
 }).$mount('#app')

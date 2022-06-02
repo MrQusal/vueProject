@@ -72,7 +72,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.floorData);
     // 数据为父组件传递过来的，挂载时结构已经有了。轮播图：可以在此处直接 new Swiper
   },
 

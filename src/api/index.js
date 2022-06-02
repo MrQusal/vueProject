@@ -16,4 +16,9 @@ export const reqCatagoryList = () => requests({ url: '/product/getBaseCategoryLi
 export const reqBannerList = () => mockRequests({ url: "/banner", method: 'GET' })
 // 获取 Floor 组件的数据
 export const reqFloorList = () => mockRequests.get("/floor")
+/*
+  获取 Search 组件的数据
+  请求需要携带参数（非必选）
+*/
+export const reqSearchData = (params) => requests({ url: '/list', method: 'POST', data: params })
 

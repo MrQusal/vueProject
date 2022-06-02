@@ -21,7 +21,7 @@
                   <a
                     href=""
                     :data-category-name="cat1.categoryName"
-                    :data-category1Id="cat1.categoryId"
+                    :data-category1-id="cat1.categoryId"
                     >{{ cat1.categoryName }}</a
                   >
                 </h3>
@@ -41,7 +41,7 @@
                         <a
                           href=""
                           :data-category-name="cat2.categoryName"
-                          :data-category2Id="cat2.categoryId"
+                          :data-category2-id="cat2.categoryId"
                           >{{ cat2.categoryName }}</a
                         >
                       </dt>
@@ -53,7 +53,7 @@
                           <a
                             href=""
                             :data-category-name="cat3.categoryName"
-                            :data-category3Id="cat3.categoryId"
+                            :data-category3-id="cat3.categoryId"
                             >{{ cat3.categoryName }}</a
                           >
                         </em>
@@ -115,22 +115,21 @@ export default {
     goSearch(event) {
       let elem = event.target;
       if (elem.nodeName === "A") {
-        console.log(elem.dataset);
-        const { categoryName, category1id, category2id, category3id } =
+        const { categoryName, category1Id, category2Id, category3Id } =
           elem.dataset;
         let location = { name: "search" };
         let query = { categoryName };
         // 点击的一级分类
-        if (category1id) {
-          query.category1id = category1id;
+        if (category1Id) {
+          query.category1Id = category1Id;
         }
         // 点击的二级分类
-        else if (category2id) {
-          query.category2id = category2id;
+        else if (category2Id) {
+          query.category2Id = category2Id;
         }
         // 点击的三级分类
-        else if (category3id) {
-          query.category3id = category3id;
+        else if (category3Id) {
+          query.category3Id = category3Id;
         }
         // 合并路由参数
         location.query = query;
@@ -191,7 +190,7 @@ export default {
       left: 0;
       top: 45px;
       width: 210px;
-      height: 461px;
+      height: 521px;
       position: absolute;
       background: #fafafa;
       z-index: 999;
@@ -277,7 +276,7 @@ export default {
     }
     // 过渡动画结束
     .sort-enter-to {
-      height: 461px;
+      height: 521px;
     }
     // 进入过程中
     .sort-enter-active {

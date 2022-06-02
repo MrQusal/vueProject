@@ -67,7 +67,7 @@ export default new VueRouter({
       // 布尔值写法：只能传递 params 参数
       // props: true,
       // 函数写法：都能传递
-      props: ($route) => { return { keyword: $route.params.keyword, k: $route.query.k }; }
+      props: ($route) => { return { keyword: $route.params.keyword }; }
     },
     // 路由重定向，访问根式，默认展示 home 
     {
