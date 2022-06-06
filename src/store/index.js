@@ -4,6 +4,8 @@ import Vue from "vue";
 // 导入各自的小仓库
 import home from './home';
 import search from './search';
+import detail from './detail'
+import shopCart from './shopCart'
 // 使用插件
 Vue.use(Vuex);
 
@@ -13,6 +15,8 @@ export default new Vuex.Store({
   // 模块式开发
   modules: {
     home,
-    search
+    search,
+    detail,
+    shopCart
   }
 })

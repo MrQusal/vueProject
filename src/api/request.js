@@ -5,10 +5,12 @@ import nprogress from 'nprogress';
 // 引入样式
 import "nprogress/nprogress.css"
 // start() 表开始、done() 表结束
+// 引入 store
+import store from '@/store'
 
 const requests = axios.create({
   // 在路径后加上 api
-  baseURL: "/api", 
+  baseURL: "/api",
   // 超时事件 5ms
   timeout: 5000
 })
@@ -17,6 +19,10 @@ const requests = axios.create({
 requests.interceptors.request.use((config) => {
   // config 配置对象，有很重要的属性 headers
   nprogress.start();  // 进度条开始
+  if (store.state.detail.uuid_token) {
+    // 游客的临时身份，需要带给后台
+    config.headers.userTempId = store.state.detail.uuid_token;
+  }
   return config;
 })
 

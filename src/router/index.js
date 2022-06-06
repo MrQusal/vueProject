@@ -1,6 +1,8 @@
 // 引入 vue 和 vue-router
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+// 引入路由表
+import routes from './routes'
 
 // 使用插件
 Vue.use(VueRouter);
@@ -31,48 +33,15 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 }
 
 
-import Home from '@/pages/Home';
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
-import Search from '@/pages/Search';
+
 
 // 暴露对象
 export default new VueRouter({
   // 配置路由
-  routes: [
-    {
-      path: "/home",
-      component: Home,
-      // 配置路由元信息，控制 Footer组件显示与隐藏
-      meta: { showFooter: true }
-    },
-
-    {
-      path: "/login",
-      component: Login,
-      meta: { showFooter: false }
-    },
-    {
-      path: "/register",
-      component: Register,
-      meta: { showFooter: false }
-    },
-    {
-      // 进行编程式路由跳转，且传递params参数，必须使用name
-      name: "search",
-      path: "/search/:keyword?", // 占位
-      component: Search,
-      meta: { showFooter: true },
-      // 路由组件可以传递props 参数
-      // 布尔值写法：只能传递 params 参数
-      // props: true,
-      // 函数写法：都能传递
-      props: ($route) => { return { keyword: $route.params.keyword }; }
-    },
-    // 路由重定向，访问根式，默认展示 home 
-    {
-      path: "/",
-      redirect: "/home"
-    }
-  ]
+  routes,
+  // 滚动行为：路由跳转后，默认在顶部
+  scrollBehavior(to, from, savedPosition) {
+    // 始终滚动到顶部 r3 --> y: 0。r4 --> top: 0
+    return { y: 0 }
+  },
 })

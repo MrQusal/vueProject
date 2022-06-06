@@ -21,4 +21,13 @@ export const reqFloorList = () => mockRequests.get("/floor")
   请求需要携带参数（非必选）
 */
 export const reqSearchData = (params) => requests({ url: '/list', method: 'POST', data: params })
-
+// 获取 Detail 组件的所需的数据
+export const reqGoodInfo = (skuId) => requests.get(`/item/${skuId}`)
+// 将产品加入购物车（获取更新，某个产品的格式）
+export const reqAddOrUpdateShopCart = (skuId, skuNum) => requests({ url: `/cart/addToCart/${skuId}/${skuNum}`, method: 'POST' })
+// 获取购物车所有的商品数据
+export const reqCartList = () => requests({ url: '/cart/cartList', method: 'GET' })
+// 删除购物车中的商品
+export const deleteGoodInCart = (skuId) => requests({ url: `/cart/deleteCart/${skuId}`, method: 'DELETE' })
+// 修改商品选中状态
+export const reqChangeGoodState = (skuId, isChecked) => requests.get(`/cart/checkCart/${skuId}/${isChecked}`);
