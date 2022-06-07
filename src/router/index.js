@@ -3,6 +3,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 // 引入路由表
 import routes from './routes'
+// 引入 store
+import store from '@/store'
 
 // 使用插件
 Vue.use(VueRouter);
@@ -35,8 +37,7 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 
 
 
-// 暴露对象
-export default new VueRouter({
+const router = new VueRouter({
   // 配置路由
   routes,
   // 滚动行为：路由跳转后，默认在顶部
@@ -45,3 +46,36 @@ export default new VueRouter({
     return { y: 0 }
   },
 })
+
+// 设置全局前置路由守卫
+router.beforeEach((to, from, next) => {
+  const { token } = store.state.user;
+  // 有 token 代表登陆了
+  if (token) {
+    // 登录了就不能去 login 了
+    if (to.path === '/login') {
+      // 去首页
+      next("/");
+    } else {
+      // 其他情况，需要看仓库中是否有用户信息，有则直接方向，没有需要发请求
+      const { loginName } = store.state.user.userInfo;
+      if (loginName) {
+        next();
+      } else {
+        store.dispatch("user/getUserInfo").then(() => {
+          // 获取成功，则放行
+          next();
+        }, () => {
+          // 失败：服务器给的 token 过期了。那么就需要清除本地存储的 token
+          store.dispatch("user/userLogOut");
+        })
+      }
+    }
+  } else {
+    // 没登陆，跳转到登录页
+    // next("/login");
+    next()
+  }
+})
+// 暴露对象
+export default router

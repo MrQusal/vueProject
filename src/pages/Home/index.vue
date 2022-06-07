@@ -38,6 +38,10 @@ export default {
   mounted() {
     // home 组件挂咋时，发送获取 floorlist 请求，然后传递给不同的 Floor 组件即可
     this.getFloorDataList();
+    // 获取用户信息
+    this.$store.dispatch("user/getUserInfo").catch((err) => {
+      console.warn(err);
+    });
   },
   methods: {
     ...mapActions("home", ["getFloorDataList"]),

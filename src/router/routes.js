@@ -22,7 +22,7 @@ export default [
   {
     path: "/register",
     component: Register,
-    meta: { showFooter: false }
+    meta: { showFooter: false },
   },
   {
     // 进行编程式路由跳转，且传递params参数，必须使用name

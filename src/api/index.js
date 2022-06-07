@@ -31,3 +31,13 @@ export const reqCartList = () => requests({ url: '/cart/cartList', method: 'GET'
 export const deleteGoodInCart = (skuId) => requests({ url: `/cart/deleteCart/${skuId}`, method: 'DELETE' })
 // 修改商品选中状态
 export const reqChangeGoodState = (skuId, isChecked) => requests.get(`/cart/checkCart/${skuId}/${isChecked}`);
+// 获取验证码接口
+export const reqGetVerificationCode = (phone) => requests({ url: `/user/passport/sendCode/${phone}`, method: 'GET' })
+// 完成注册的接口
+export const reqUserRegister = (data) => requests.post("/user/passport/register", data)
+// 处理登录的接口
+export const reqUserLogin = (data) => requests({ url: '/user/passport/login', method: "POST", data })
+// 获取用户信息（需要带上 token，放在 header 中）
+export const reqGetUserInfo = () => requests.get("/user/passport/auth/getUserInfo")
+// 通知服务器退出登录
+export const reqLogOut = () => requests({ url: '/user/passport/logout', method: 'GET' })

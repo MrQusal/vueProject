@@ -23,6 +23,10 @@ requests.interceptors.request.use((config) => {
     // 游客的临时身份，需要带给后台
     config.headers.userTempId = store.state.detail.uuid_token;
   }
+  // 需要携带 token 给服务器
+  if (store.state.user.token) {
+    config.headers.token = store.state.user.token
+  }
   return config;
 })
 
