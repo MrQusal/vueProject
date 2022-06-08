@@ -5,6 +5,9 @@ import Search from '@/pages/Search';
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Trade from '@/pages/Trade'
+import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
 
 export default [
   {
@@ -55,5 +58,20 @@ export default [
     path: '/shopCart',
     name: 'shopCart',
     component: ShopCart
+  },
+  {
+    path: '/trade',
+    name: 'trade',
+    component: Trade
+  },
+  {
+    path: '/pay',
+    name: 'pay',
+    component: Pay
+  },
+  {
+    path: '/paysuccess',
+    name: 'paysuccess',
+    component: PaySuccess
   }
 ]

@@ -18,6 +18,15 @@ import store from '@/store';
 import '@/mock/mockServe'
 // 引入swiper样式
 import "swiper/css/swiper.css"
+// 引入所有的Api 接口
+import * as API from '@/api'
+//  element-ui 按需引入 
+import { Button, MessageBox, Message } from 'element-ui';
+Vue.use(Button)
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$message = Message
+
 
 
 // 测试。存在跨域问题。解决：在veu.config.js中配置代理服务器
@@ -33,5 +42,7 @@ new Vue({
   // 配置全局事件总线
   beforeCreate() {
     Vue.prototype.$bus = this;
+    // 将所有的接口都挂载到 vm 身上
+    Vue.prototype.$API = API;
   },
 }).$mount('#app')

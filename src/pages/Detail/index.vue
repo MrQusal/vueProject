@@ -405,9 +405,8 @@ export default {
       // 1. 发送请求，添加到购物车
       let p = this.addGoodtoShopCart({ skuId, skuNum: this.skuNum });
       p.then(
-        (value) => {
+        () => {
           // 2. 存储成功时，进行路由跳转（跳转至 购物车 ShopCart 组件）
-          console.log(value);
           this.$router.push({
             name: "addCartSuccess",
             query: { skuNum: this.skuNum },

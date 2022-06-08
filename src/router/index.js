@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
       // 去首页
       next("/");
     } else {
-      // 其他情况，需要看仓库中是否有用户信息，有则直接方向，没有需要发请求
+      // 其他情况，需要看仓库中是否有用户信息，有则直接放行，没有需要发请求
       const { loginName } = store.state.user.userInfo;
       if (loginName) {
         next();

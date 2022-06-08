@@ -41,3 +41,13 @@ export const reqUserLogin = (data) => requests({ url: '/user/passport/login', me
 export const reqGetUserInfo = () => requests.get("/user/passport/auth/getUserInfo")
 // 通知服务器退出登录
 export const reqLogOut = () => requests({ url: '/user/passport/logout', method: 'GET' })
+// 获取用户地址信息
+export const reqGetUerAddress = () => requests.get("/user/userAddress/auth/findUserAddressList")
+// 获取用户的商品清单（trade组件）
+export const reqOrderInfo = () => requests({ url: '/order/auth/trade', method: 'GET' })
+// 提交订单的接口（以后的接口，数据返回后直接在组件处展示，不使用Vuex）
+export const reqCommitOrder = (tradeNo, data) => requests.post(`/order/auth/submitOrder?tradeNo=${tradeNo}`, data)
+// 获取支付信息（pay组件）
+export const reqPayInfo = (orderId) => requests({ url: `/payment/weixin/createNative/${orderId}`, method: 'GET' })
+// 获取支付的状态
+export const reqPayStatus = (orderId) => requests.get(`/payment/weixin/queryPayStatus/${orderId}`)
