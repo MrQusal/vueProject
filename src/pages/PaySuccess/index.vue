@@ -20,6 +20,16 @@
 <script>
   export default {
     name: 'PaySuccess',
+    // 组件内守卫
+    beforeRouteEnter (to, from, next) {
+      // ...
+      const fromPath = from.path;
+      if (fromPath === '/pay') {
+        next();
+      } else {
+        next(false);
+      }
+    }
   }
 </script>
 

@@ -72,9 +72,11 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    // 没登陆，跳转到登录页
-    // next("/login");
-    next()
+    // 没登陆，不能去交易/支付/个人中心相关的页面
+    const arr = ['/trade', '/pay', '/center'];
+    const toPath = to.path;
+    // 将路径通过query参数保存下来
+    arr.every(item => !toPath.startsWith(item)) ? next() : next(`/login?redirect=${toPath}`);
   }
 })
 // 暴露对象

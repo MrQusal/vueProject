@@ -13,5 +13,7 @@ module.exports = {
         // pathRewrite: { "^/api": "" },
       }
     }
-  }
+  },
+  // 生产环境，不生成 source-map文件
+  productionSourceMap: false
 }

@@ -1,37 +1,25 @@
-import Home from '@/pages/Home';
-import Login from '@/pages/Login';
-import Register from '@/pages/Register';
-import Search from '@/pages/Search';
-import Detail from '@/pages/Detail'
-import AddCartSuccess from '@/pages/AddCartSuccess'
-import ShopCart from '@/pages/ShopCart'
-import Trade from '@/pages/Trade'
-import Pay from '@/pages/Pay'
-import PaySuccess from '@/pages/PaySuccess'
-
 export default [
   {
     path: "/home",
-    component: Home,
+    component: () => import("@/pages/Home"),
     // 配置路由元信息，控制 Footer组件显示与隐藏
     meta: { showFooter: true }
   },
-
   {
     path: "/login",
-    component: Login,
+    component: () => import("@/pages/Login"),
     meta: { showFooter: false }
   },
   {
     path: "/register",
-    component: Register,
+    component: () => import("@/pages/Register"),
     meta: { showFooter: false },
   },
   {
     // 进行编程式路由跳转，且传递params参数，必须使用name
     name: "search",
     path: "/search/:keyword?", // 占位
-    component: Search,
+    component: () => import("@/pages/Search"),
     meta: { showFooter: true },
     // 路由组件可以传递props 参数
     // 布尔值写法：只能传递 params 参数
@@ -46,32 +34,73 @@ export default [
   },
   {
     path: "/detail/:skuId",
-    component: Detail
+    component: () => import("@/pages/Detail")
   },
   {
     path: '/addCartSuccess',
     name: 'addCartSuccess',
-    component: AddCartSuccess,
+    component: () => import("@/pages/AddCartSuccess"),
     meta: { showFooter: true }
   },
   {
     path: '/shopCart',
     name: 'shopCart',
-    component: ShopCart
+    component: () => import("@/pages/ShopCart")
   },
   {
     path: '/trade',
     name: 'trade',
-    component: Trade
+    component: () => import("@/pages/Trade"),
+    // 配置独享守卫
+    beforeEnter: (to, from, next) => {
+      const fromPath = from.path;
+      // 交易页面，只能从购物车（点击结算时，并且携带orderId）
+      if (fromPath === '/shopCart') {
+        next();
+      } else {
+        // 停留在当前页
+        next(false);
+      }
+    }
   },
   {
     path: '/pay',
     name: 'pay',
-    component: Pay
+    component: () => import("@/pages/Pay"),
+    beforeEnter: (to, from, next) => {
+      const fromPath = from.path;
+      // 只能从 trade 页面跳转至 pay 页面
+      if (fromPath === '/trade') {
+        next();
+      } else {
+        next(false);
+      }
+    }
   },
   {
     path: '/paysuccess',
     name: 'paysuccess',
-    component: PaySuccess
+    component: () => import("@/pages/PaySuccess"),
+  },
+  {
+    path: '/center',
+    name: 'center',
+    component: () => import("@/pages/Center"),
+    children: [
+      {
+        path: 'myorder',
+        name: 'myorder',
+        component: () => import("@/pages/Center/MyOrder")
+      },
+      {
+        path: 'grouporder',
+        name: 'grouporder',
+        component: () => import("@/pages/Center/GroupOrder")
+      },
+      {
+        path: '/center',
+        redirect: '/center/myorder'
+      }
+    ]
   }
 ]

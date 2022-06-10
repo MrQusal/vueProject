@@ -51,3 +51,5 @@ export const reqCommitOrder = (tradeNo, data) => requests.post(`/order/auth/subm
 export const reqPayInfo = (orderId) => requests({ url: `/payment/weixin/createNative/${orderId}`, method: 'GET' })
 // 获取支付的状态
 export const reqPayStatus = (orderId) => requests.get(`/payment/weixin/queryPayStatus/${orderId}`)
+// 获取个人中心的数据（Center 组件）
+export const reqMyOrders = (page, limit) => requests({ url: `/order/auth/${page}/${limit}`, method: 'GET' })

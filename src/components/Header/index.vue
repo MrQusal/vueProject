@@ -18,8 +18,8 @@
           </p>
         </div>
         <div class="typeList">
-          <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <router-link to="/center">我的订单</router-link>
+          <router-link to="/shopCart">我的购物车</router-link>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -38,17 +38,8 @@
       </h1>
       <div class="searchArea">
         <form action="###" class="searchForm">
-          <input
-            type="text"
-            id="autocomplete"
-            class="input-error input-xxlarge"
-            v-model="keyword"
-          />
-          <button
-            class="sui-btn btn-xlarge btn-danger"
-            type="button"
-            @click="goSearch"
-          >
+          <input type="text" id="autocomplete" class="input-error input-xxlarge" v-model="keyword" />
+          <button class="sui-btn btn-xlarge btn-danger" type="button" @click="goSearch">
             搜索
           </button>
         </form>
@@ -58,147 +49,151 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-export default {
-  name: "Header",
-  data() {
-    return {
-      keyword: "",
-    };
-  },
-  mounted() {
-    // 订阅事件，删除重置 keyword
-    this.$bus.$on("removeHeaderKeyword", () => {
-      this.keyword = "";
-    });
-  },
-  methods: {
-    // 跳转到 search组件
-    goSearch() {
-      // 常用路由传参 模板字符串
-      // this.$router.push(`search/${this.keyword}?k=${this.keyword.toUpperCase()}`);
-      // 对象形式， name 为路由别名
-      let location = {
-        name: "search",
-        params: { keyword: this.keyword || undefined },
+  import {
+    mapGetters
+  } from "vuex";
+  export default {
+    name: "Header",
+    data() {
+      return {
+        keyword: "",
       };
-      // 存在 query 跳转前需要合并参数
-      if (this.$route.query) {
-        location.query = this.$route.query;
-      }
-      this.$router.push(location);
     },
-    // 退出登录
-    handlerLogOut() {
-      this.$store
-        .dispatch("user/userLogOut")
-        .then(() => {
-          // 退出登录，需要回到首页
-          this.$router.push("/");
-        })
-        .catch((err) => {
-          console.warn(err);
-        });
+    mounted() {
+      // 订阅事件，删除重置 keyword
+      this.$bus.$on("removeHeaderKeyword", () => {
+        this.keyword = "";
+      });
     },
-  },
-  computed: {
-    ...mapGetters("user", ["loginName"]),
-  },
-};
+    methods: {
+      // 跳转到 search组件
+      goSearch() {
+        // 常用路由传参 模板字符串
+        // this.$router.push(`search/${this.keyword}?k=${this.keyword.toUpperCase()}`);
+        // 对象形式， name 为路由别名
+        let location = {
+          name: "search",
+          params: {
+            keyword: this.keyword || undefined
+          },
+        };
+        // 存在 query 跳转前需要合并参数
+        if (this.$route.query) {
+          location.query = this.$route.query;
+        }
+        this.$router.push(location);
+      },
+      // 退出登录
+      handlerLogOut() {
+        this.$store
+          .dispatch("user/userLogOut")
+          .then(() => {
+            // 退出登录，需要回到首页
+            this.$router.push("/");
+          })
+          .catch((err) => {
+            console.warn(err);
+          });
+      },
+    },
+    computed: {
+      ...mapGetters("user", ["loginName"]),
+    },
+  };
 </script>
 
 <style scope lang="less">
-.header {
-  & > .top {
-    background-color: #eaeaea;
-    height: 30px;
-    line-height: 30px;
+  .header {
+    &>.top {
+      background-color: #eaeaea;
+      height: 30px;
+      line-height: 30px;
 
-    .container {
+      .container {
+        width: 1200px;
+        margin: 0 auto;
+        overflow: hidden;
+
+        .loginList {
+          float: left;
+
+          p {
+            float: left;
+            margin-right: 10px;
+
+            .register {
+              border-left: 1px solid #b3aeae;
+              padding: 0 5px;
+              margin-left: 5px;
+            }
+          }
+        }
+
+        .typeList {
+          float: right;
+
+          a {
+            padding: 0 10px;
+
+            &+a {
+              border-left: 1px solid #b3aeae;
+            }
+          }
+        }
+      }
+    }
+
+    &>.bottom {
       width: 1200px;
       margin: 0 auto;
       overflow: hidden;
 
-      .loginList {
+      .logoArea {
         float: left;
 
-        p {
-          float: left;
-          margin-right: 10px;
-
-          .register {
-            border-left: 1px solid #b3aeae;
-            padding: 0 5px;
-            margin-left: 5px;
+        .logo {
+          img {
+            width: 175px;
+            margin: 25px 45px;
           }
         }
       }
 
-      .typeList {
+      .searchArea {
         float: right;
+        margin-top: 35px;
 
-        a {
-          padding: 0 10px;
+        .searchForm {
+          overflow: hidden;
 
-          & + a {
-            border-left: 1px solid #b3aeae;
+          input {
+            box-sizing: border-box;
+            width: 490px;
+            height: 32px;
+            padding: 0px 4px;
+            border: 2px solid #ea4a36;
+            float: left;
+
+            &:focus {
+              outline: none;
+            }
+          }
+
+          button {
+            height: 32px;
+            width: 68px;
+            background-color: #ea4a36;
+            border: none;
+            color: #fff;
+            float: left;
+            cursor: pointer;
+
+            &:focus {
+              outline: none;
+            }
           }
         }
       }
     }
   }
-
-  & > .bottom {
-    width: 1200px;
-    margin: 0 auto;
-    overflow: hidden;
-
-    .logoArea {
-      float: left;
-
-      .logo {
-        img {
-          width: 175px;
-          margin: 25px 45px;
-        }
-      }
-    }
-
-    .searchArea {
-      float: right;
-      margin-top: 35px;
-
-      .searchForm {
-        overflow: hidden;
-
-        input {
-          box-sizing: border-box;
-          width: 490px;
-          height: 32px;
-          padding: 0px 4px;
-          border: 2px solid #ea4a36;
-          float: left;
-
-          &:focus {
-            outline: none;
-          }
-        }
-
-        button {
-          height: 32px;
-          width: 68px;
-          background-color: #ea4a36;
-          border: none;
-          color: #fff;
-          float: left;
-          cursor: pointer;
-
-          &:focus {
-            outline: none;
-          }
-        }
-      }
-    }
-  }
-}
 </style>

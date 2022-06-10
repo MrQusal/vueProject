@@ -26,8 +26,14 @@ Vue.use(Button)
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$message = Message
-
-
+// 使用图片懒加载 (报错：无法识别 v-lazy 指令)
+// import VueLazyload from "vue-lazyload"
+// import loadimage from "@/assets/gx.gif"
+// Vue.use(VueLazyload, {
+//   loading: loadimage,
+// });
+// 引入 vee-validate 插件
+import '@/plugins/validate'
 
 // 测试。存在跨域问题。解决：在veu.config.js中配置代理服务器
 // import { reqCatagoryList } from '@/api';
