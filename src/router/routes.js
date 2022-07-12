@@ -102,5 +102,36 @@ export default [
         redirect: '/center/myorder'
       }
     ]
+  },
+  {
+    path: '/communication',
+    name: 'communication',
+    component: () => import("@/pages/Communication"),
+    children: [
+      {
+        path: 'event',
+        component: () => import("@/pages/Communication/EventTest"),
+      },
+      {
+        path: 'model',
+        component: () => import("@/pages/Communication/ModelTest"),
+      },
+      {
+        path: 'sync',
+        component: () => import("@/pages/Communication/SyncTest")
+      },
+      {
+        path: 'attrs-listeners',
+        component: () => import("@/pages/Communication/AttrsListenersTest")
+      },
+      {
+        path: 'children-parent',
+        component: () => import("@/pages/Communication/ChildrenParentTest")
+      },
+      {
+        path: 'scope-slot',
+        component: () => import("@/pages/Communication/ScopeSlotTest")
+      },
+    ]
   }
 ]
